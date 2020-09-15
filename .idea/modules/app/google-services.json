@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "387282311077",
+    "firebase_url": "https://video-chatting-app-4cf70.firebaseio.com",
+    "project_id": "video-chatting-app-4cf70",
+    "storage_bucket": "video-chatting-app-4cf70.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387282311077:android:3247ea330ae4663d1f7a4c",
+        "android_client_info": {
+          "package_name": "com.chad.videochatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387282311077-kjgki9obkhbmuoje2aodkk5fbckkc0lc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.chad.videochatapp",
+            "certificate_hash": "bfa4ede90b7cc0cb7641ab6b906db0d7fadf6650"
+          }
+        },
+        {
+          "client_id": "387282311077-h91cssq27ofm4palfm8rtanu49v5hl87.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0ve3lyGAB64LgJ9MZaZb78jP-daJbYJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387282311077-h91cssq27ofm4palfm8rtanu49v5hl87.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
