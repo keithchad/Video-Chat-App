@@ -9,5 +9,12 @@
     <string name="password_hint">• • • • • •</string>
     <string name="sign_in">sign in</string>
     <string name="don_t_have_an_account">Don\'t have an Account?</string>
-    <string name="sign_up">sign up</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="a_few_details">We need a few details to get your account ready</string>
+    <string name="fisrt_name">Fisrt Name</string>
+    <string name="dummy_name">John</string>
+    <string name="last_name">Last Name</string>
+    <string name="dummy_name2">Doe</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="already_have_an_account">Already Have an Account?</string>
 </resources>
