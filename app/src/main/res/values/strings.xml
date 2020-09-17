@@ -17,4 +17,5 @@
     <string name="dummy_name2">Doe</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="already_have_an_account">Already Have an Account?</string>
+    <string name="sign_out">Sign Out</string>
 </resources>
