@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chad.videochatapp.Listeners.UserListener;
 import com.chad.videochatapp.Models.User;
 import com.chad.videochatapp.R;
 
@@ -17,9 +18,11 @@ import java.util.List;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private List<User> list;
+    private UserListener userListener;
 
-    public UserAdapter(List<User> list) {
+    public UserAdapter(List<User> list, UserListener userListener) {
         this.list = list;
+        this.userListener = userListener;
     }
 
     @NonNull
@@ -41,7 +44,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return list.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView textFirstChar, textUsername, textEmail;
         ImageView imageAudioMeeting, imageVideoMeeting;
@@ -64,6 +67,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             textFirstChar.setText(firstChar);
             textUsername.setText(username);
             textEmail.setText(user.getEmail());
+
+            imageAudioMeeting.setOnClickListener(v -> userListener.initiateAudioMeeting(user));
+
+            imageVideoMeeting.setOnClickListener(v -> userListener.initiateVideoMeeting(user));
 
         }
     }

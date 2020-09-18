@@ -3,16 +3,17 @@ package com.chad.videochatapp.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.chad.videochatapp.Adapter.UserAdapter;
 import com.chad.videochatapp.Authentication.LoginActivity;
 import com.chad.videochatapp.Constants.Constants;
+import com.chad.videochatapp.Listeners.UserListener;
 import com.chad.videochatapp.Models.User;
 import com.chad.videochatapp.R;
 import com.chad.videochatapp.Utils.PreferenceManager;
@@ -26,13 +27,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements UserListener {
 
     private PreferenceManager preferenceManager;
     private List<User> list;
     private UserAdapter userAdapter;
     private TextView textErrorMessage;
-    private ProgressBar userProgressBar;
+//    private ProgressBar userProgressBar;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +51,16 @@ public class MainActivity extends AppCompatActivity {
         TextView textTitle = findViewById(R.id.textTitle);
         TextView textSignOut = findViewById(R.id.textSignOut);
         textErrorMessage = findViewById(R.id.textErrorMessage);
-        userProgressBar = findViewById(R.id.userProgressBar);
+//        userProgressBar = findViewById(R.id.userProgressBar);
+        swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+
+        swipeRefreshLayout.setOnRefreshListener(this::getUsers);
+
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
         list = new ArrayList<>();
-        userAdapter = new UserAdapter(list);
+        userAdapter = new UserAdapter(list, this);
         recyclerView.setAdapter(userAdapter);
 
         textSignOut.setOnClickListener(v -> signOut());
@@ -75,12 +81,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUsers() {
-        userProgressBar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(true);
+//        userProgressBar.setVisibility(View.VISIBLE);
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection(Constants.KEY_COLLECTION_USERS).get().addOnCompleteListener(task -> {
-            userProgressBar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+//            userProgressBar.setVisibility(View.GONE);
             String myUserId = preferenceManager.getString(Constants.KEY_USER_ID);
             if(task.isSuccessful() && task.getResult() != null) {
+                list.clear();
                 for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                     if (myUserId.equals(documentSnapshot.getId())) {
                         continue;
@@ -139,4 +148,21 @@ public class MainActivity extends AppCompatActivity {
                 }).addOnFailureListener(e -> Toast.makeText(MainActivity.this, "Unable to sign Out", Toast.LENGTH_SHORT).show());
     }
 
+    @Override
+    public void initiateVideoMeeting(User user) {
+        if (user.token == null || user.token.trim().isEmpty()) {
+            Toast.makeText(this, user.firstName + "" + user.lastName + " is not available for Video meeting!", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Video Meeting with " + user.firstName + " " + user.lastName, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void initiateAudioMeeting(User user) {
+        if (user.token == null || user.token.trim().isEmpty()) {
+            Toast.makeText(this, user.firstName + "" + user.lastName + " is not available for Audio meeting!", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(this, "Audio Meeting with " + user.firstName + " " + user.lastName, Toast.LENGTH_SHORT).show();
+        }
+    }
 }
