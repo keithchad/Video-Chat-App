@@ -153,7 +153,10 @@ public class MainActivity extends AppCompatActivity implements UserListener {
         if (user.token == null || user.token.trim().isEmpty()) {
             Toast.makeText(this, user.firstName + "" + user.lastName + " is not available for Video meeting!", Toast.LENGTH_SHORT).show();
         }else {
-            Toast.makeText(this, "Video Meeting with " + user.firstName + " " + user.lastName, Toast.LENGTH_SHORT).show();
+           Intent intent = new Intent(getApplicationContext(), OutgoingInvitationActivity.class);
+           intent.putExtra("user", user);
+           intent.putExtra("type", "video");
+           startActivity(intent);
         }
     }
 
