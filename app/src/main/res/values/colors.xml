@@ -13,6 +13,8 @@
 
     <color name="colorMeetingInvitationStart">#4004BB</color>
     <color name="colorMeetingInvitationEnd">#8A1AAA</color>
+    <color name="splash_start_color">#00B9FF</color>
+    <color name="splash_end_color">#150FD8</color>
 
 
 </resources>

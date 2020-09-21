@@ -20,4 +20,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="incoming_meeting_invitation">Incoming Meeting Invitation</string>
     <string name="sending_meeting_invitation">Sending Meeting Invitation</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

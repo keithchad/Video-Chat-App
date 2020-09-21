@@ -25,12 +25,19 @@ public class Constants {
     public static final String REMOTE_MSG_DATA = "data";
     public static final String REMOTE_MSG_REGISTRATION_IDS = "registration_ids";
 
+    public static final String REMOTE_MSG_INVITATION_RESPONSE = "invitationResponse";
 
+    public static final String REMOTE_MSG_INVITATION_ACCEPTED = "accepted";
+    public static final String REMOTE_MSG_INVITATION_REJECTED = "rejected";
+
+    public static final String REMOTE_MSG_INVITATION_CANCELLED = "rejected";
+
+    public static final String REMOTE_MSG_MEETING_ROOM = "meetingRoom";
     public static HashMap<String, String> getRemoteMessageHeaders() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(
                 Constants.REMOTE_MSG_AUTHORIZATION,
-                "key="
+                "key=AAAAWivTF6U:APA91bH9EQI9dADy8iRvxlCNleiBlo7SKSE5u_cnAA2yzhf5YLimJV5JnI7SGH2iYfah0Q8UhO-XfW23kqFAjhtGB-VbPuuU98pgy6bNLOerDF3ZxZEuM433fh-GO0K5gNS_XArwZvZs"
         );
         headers.put(Constants.REMOTE_MSG_CONTENT_TYPE, "application/json");
         return headers;
