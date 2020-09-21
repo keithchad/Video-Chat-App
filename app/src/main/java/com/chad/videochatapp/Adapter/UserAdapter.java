@@ -7,23 +7,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.videochatapp.Listeners.UserListener;
 import com.chad.videochatapp.Models.User;
 import com.chad.videochatapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
     private List<User> list;
     private UserListener userListener;
+    private List<User> selectedUsers;
 
     public UserAdapter(List<User> list, UserListener userListener) {
         this.list = list;
         this.userListener = userListener;
+        selectedUsers = new ArrayList<>();
     }
+
+    public List<User> getSelectedUsers() {
+        return selectedUsers;
+    }
+
 
     @NonNull
     @Override
@@ -47,7 +56,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView textFirstChar, textUsername, textEmail;
+
         ImageView imageAudioMeeting, imageVideoMeeting;
+
+        ImageView imageSelected;
+
+        ConstraintLayout userContainer;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -55,8 +69,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             textFirstChar = itemView.findViewById(R.id.textFirstChar);
             textUsername = itemView.findViewById(R.id.textUsername);
             textEmail = itemView.findViewById(R.id.textEmail);
+
             imageAudioMeeting = itemView.findViewById(R.id.imageAudioMeeting);
             imageVideoMeeting = itemView.findViewById(R.id.imageVideoMeeting);
+
+            userContainer = itemView.findViewById(R.id.userContainer);
+            imageSelected = itemView.findViewById(R.id.imageSelected);
 
         }
 
@@ -71,6 +89,38 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
             imageAudioMeeting.setOnClickListener(v -> userListener.initiateAudioMeeting(user));
 
             imageVideoMeeting.setOnClickListener(v -> userListener.initiateVideoMeeting(user));
+
+            userContainer.setOnLongClickListener(v -> {
+
+                if (imageSelected.getVisibility() != View.VISIBLE) {
+                    selectedUsers.add(user);
+                    imageSelected.setVisibility(View.VISIBLE);
+                    imageAudioMeeting.setVisibility(View.GONE);
+                    imageAudioMeeting.setVisibility(View.GONE);
+                    userListener.onMultipleUsersAction(true);
+                }
+                return true;
+            });
+
+            userContainer.setOnClickListener(v -> {
+                if(imageSelected.getVisibility() == View.VISIBLE) {
+                    selectedUsers.remove(user);
+                    imageSelected.setVisibility(View.GONE);
+                    imageVideoMeeting.setVisibility(View.VISIBLE);
+                    imageAudioMeeting.setVisibility(View.VISIBLE);
+
+                    if(selectedUsers.size() == 0) {
+                        userListener.onMultipleUsersAction(false);
+                    }
+                }else {
+                    if(selectedUsers.size() > 0) {
+                        selectedUsers.add(user);
+                        imageSelected.setVisibility(View.VISIBLE);
+                        imageVideoMeeting.setVisibility(View.GONE);
+                        imageAudioMeeting.setVisibility(View.GONE);
+                    }
+                }
+            });
 
         }
     }
