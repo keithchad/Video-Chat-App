@@ -22,10 +22,14 @@ import com.chad.videochatapp.R;
 import com.chad.videochatapp.Utils.PreferenceManager;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import org.jitsi.meet.sdk.JitsiMeetActivity;
+import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -44,9 +48,10 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
 
     private String inviterToken = null;
     private String meetingRoom = null;
+    private String meetingType = null;
 
     User user = (User) getIntent().getSerializableExtra("user");
-    String meetingType = getIntent().getStringExtra("type");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +70,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         textEmail = findViewById(R.id.textEmail);
 
         preferenceManager  = new PreferenceManager(getApplicationContext());
+        meetingType = getIntent().getStringExtra("type");
 
         if (user != null) {
             String username = String.format("%s %s", user.firstName, user.lastName);
@@ -180,12 +186,40 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         });
     }
 
-    private BroadcastReceiver invitationResponseReveiver = new BroadcastReceiver() {
+    private BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String type = intent.getStringExtra(Constants.REMOTE_MSG_INVITATION_RESPONSE);
             if(type != null) {
                 if(type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
+
+                    try {
+                        URL severURL = new URL("https://meet.jit.si");
+
+                        JitsiMeetConferenceOptions.Builder builder = new JitsiMeetConferenceOptions.Builder();
+                        builder.setServerURL(severURL);
+                        builder.setWelcomePageEnabled(false);
+                        builder.setRoom(meetingRoom);
+
+                        if(meetingType.equals("audio")) {
+                            builder.setVideoMuted(true);
+                        }
+
+//                        JitsiMeetConferenceOptions conferenceOptions =
+//                                new JitsiMeetConferenceOptions.Builder()
+//                                        .setServerURL(severURL)
+//                                        .setWelcomePageEnabled(false)
+//                                        .setRoom(meetingRoom)
+//                                        .build();
+
+                        JitsiMeetActivity.launch(OutgoingInvitationActivity.this, builder.build());
+                        finish();
+
+                    } catch (MalformedURLException e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
                     Toast.makeText(context, "Invitation Accepted", Toast.LENGTH_SHORT).show();
                 }else if (type.equals(Constants.REMOTE_MSG_INVITATION_REJECTED)) {
                     Toast.makeText(context, "Invitation Rejected", Toast.LENGTH_SHORT).show();
@@ -199,7 +233,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(
-                invitationResponseReveiver,
+                invitationResponseReceiver,
                 new IntentFilter(Constants.REMOTE_MSG_INVITATION_RESPONSE)
         );
     }
@@ -208,7 +242,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(
-                invitationResponseReveiver
+                invitationResponseReceiver
         );
     }
 

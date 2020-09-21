@@ -170,6 +170,10 @@ public class HomeFragment extends Fragment implements UserListener {
     @Override
     public void initiateAudioMeeting(User user) {
         if (user.token == null || user.token.trim().isEmpty()) {
+            Intent intent = new Intent(getContext(), OutgoingInvitationActivity.class);
+            intent.putExtra("user", user);
+            intent.putExtra("type", "audio");
+            startActivity(intent);
             Toast.makeText(getContext(), user.firstName + "" + user.lastName + " is not available for Audio meeting!", Toast.LENGTH_SHORT).show();
         }else {
             Toast.makeText(getContext(), "Audio Meeting with " + user.firstName + " " + user.lastName, Toast.LENGTH_SHORT).show();
