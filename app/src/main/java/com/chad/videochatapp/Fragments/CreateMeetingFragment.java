@@ -45,7 +45,7 @@ import java.util.List;
 
 import static android.content.Context.POWER_SERVICE;
 
-public class HomeFragment extends Fragment{
+public class CreateMeetingFragment extends Fragment{
 
 
     @Override

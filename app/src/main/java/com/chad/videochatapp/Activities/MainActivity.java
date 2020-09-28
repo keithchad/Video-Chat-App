@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.chad.videochatapp.Fragments.FriendsFragment;
-import com.chad.videochatapp.Fragments.HomeFragment;
 import com.chad.videochatapp.Fragments.SettingsFragment;
 import com.chad.videochatapp.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,7 +27,9 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         setBarColors();
-       getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+      // getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
        initialize();
 
        checkForBatteryOptimization();
@@ -46,7 +47,9 @@ public class MainActivity extends AppCompatActivity{
 
                 switch (item.getItemId()) {
                     case R.id.home :
-                        selectedFragment = new HomeFragment();
+                        selectedFragment = null;
+                        Intent intent = new Intent(this, HomeActivity.class);
+                        startActivity(intent);
                         break;
 
                     case R.id.user :
