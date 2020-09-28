@@ -95,7 +95,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
                 if (imageSelected.getVisibility() != View.VISIBLE) {
                     selectedUsers.add(user);
                     imageSelected.setVisibility(View.VISIBLE);
-                    imageAudioMeeting.setVisibility(View.GONE);
+                    imageVideoMeeting.setVisibility(View.GONE);
                     imageAudioMeeting.setVisibility(View.GONE);
                     userListener.onMultipleUsersAction(true);
                 }

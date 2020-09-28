@@ -32,8 +32,6 @@ import retrofit2.Response;
 public class IncomingInvitationActivity extends AppCompatActivity {
 
     String meetingType = null;
-    String firstName;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,12 +50,12 @@ public class IncomingInvitationActivity extends AppCompatActivity {
         TextView textUsername = findViewById(R.id.textUsername);
         TextView textEmail = findViewById(R.id.textEmail);
 
+        meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
+        String firstName = getIntent().getStringExtra(Constants.KEY_FIRST_NAME);
+
         String username = String.format("%s %s", firstName,
                 getIntent().getStringExtra(Constants.KEY_LAST_NAME));
         String email = getIntent().getStringExtra(Constants.KEY_EMAIL);
-
-        meetingType = getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_TYPE);
-        firstName = getIntent().getStringExtra(Constants.KEY_FIRST_NAME);
 
         textUsername.setText(username);
         textEmail.setText(email);
@@ -123,14 +121,12 @@ public class IncomingInvitationActivity extends AppCompatActivity {
                           if(meetingType.equals("audio")) {
                               builder.setVideoMuted(true);
                           }
-
 //                          JitsiMeetConferenceOptions conferenceOptions =
 //                                  new JitsiMeetConferenceOptions.Builder()
 //                                  .setServerURL(severURL)
 //                                  .setWelcomePageEnabled(false)
 //                                  .setRoom(getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM))
 //                                  .build();
-
                           JitsiMeetActivity.launch(IncomingInvitationActivity.this, builder.build());
                           finish();
 
@@ -139,7 +135,6 @@ public class IncomingInvitationActivity extends AppCompatActivity {
                           Toast.makeText(IncomingInvitationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                           finish();
                       }
-                      Toast.makeText(IncomingInvitationActivity.this, "Invitation Accepted", Toast.LENGTH_SHORT).show();
                   }else {
                       Toast.makeText(IncomingInvitationActivity.this, "Invitation Rejected", Toast.LENGTH_SHORT).show();
                       finish();

@@ -32,6 +32,7 @@
         android:contentDescription="@string/app_name"
         android:padding="@dimen/_3sdp"
         android:src="@drawable/ic_accept"
+        app:tint="@color/colorTextIcons"
         app:layout_constraintBottom_toBottomOf="@id/textFirstChar"
         app:layout_constraintEnd_toEndOf="@id/textFirstChar"
         app:layout_constraintStart_toStartOf="@id/textFirstChar"

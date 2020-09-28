@@ -58,9 +58,6 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
     private int rejectionCount = 0;
     private  int totalReceivers = 0;
 
-    User user = (User) getIntent().getSerializableExtra("user");
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +77,8 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         preferenceManager  = new PreferenceManager(getApplicationContext());
         meetingType = getIntent().getStringExtra("type");
 
+        User user = (User) getIntent().getSerializableExtra("user");
+
         if (user != null) {
             String username = String.format("%s %s", user.firstName, user.lastName);
 
@@ -91,7 +90,7 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
         if(meetingType != null) {
             if(meetingType.equals("video")) {
                 imageMeetingType.setImageResource(R.drawable.ic_videocam);
-            }else if(meetingType.equals("audio")) {
+            }else {
                 imageMeetingType.setImageResource(R.drawable.ic_call);
             }
         }
@@ -182,6 +181,33 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
 
     }
 
+    private void sendRemoteMessage(String remoteMessageBody, String type) {
+        APIClient.getClient().create(APIService.class).sendRemoteMessage(
+                Constants.getRemoteMessageHeaders(), remoteMessageBody
+        ).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
+                if (response.isSuccessful()) {
+                    if (type.equals(Constants.REMOTE_MSG_INVITATION)){
+                        Toast.makeText(OutgoingInvitationActivity.this, "Invitation Sent Successfully", Toast.LENGTH_SHORT).show();
+                    }else if (type.equals(Constants.REMOTE_MSG_INVITATION_RESPONSE)) {
+                        Toast.makeText(OutgoingInvitationActivity.this, "Invitation Cancelled", Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+                }else {
+                    Toast.makeText(OutgoingInvitationActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
+                Toast.makeText(OutgoingInvitationActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+    }
+
     private void cancelInvitation(String receiverToken, ArrayList<User> receivers) {
         try {
 
@@ -208,39 +234,12 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
             body.put(Constants.REMOTE_MSG_DATA, data);
             body.put(Constants.REMOTE_MSG_REGISTRATION_IDS, tokens);
 
-            sendRemoteMessage(body.toString(), Constants.REMOTE_MSG_INVITATION_CANCELLED);
+            sendRemoteMessage(body.toString(), Constants.REMOTE_MSG_INVITATION_RESPONSE);
 
         }catch (Exception e) {
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
             finish();
         }
-    }
-
-    private void sendRemoteMessage(String remoteMessageBody, String type) {
-        APIClient.getClient().create(APIService.class).sendRemoteMessage(
-                Constants.getRemoteMessageHeaders(), remoteMessageBody
-        ).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
-                if (response.isSuccessful()) {
-                    if (Constants.REMOTE_MSG_INVITATION.equals(Constants.REMOTE_MSG_INVITATION)){
-                        Toast.makeText(OutgoingInvitationActivity.this, "Invitation Sent Successfully", Toast.LENGTH_SHORT).show();
-                    }else if (type.equals(Constants.REMOTE_MSG_INVITATION_RESPONSE)) {
-                        Toast.makeText(OutgoingInvitationActivity.this, "Invitation Cancelled", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                }else {
-                    Toast.makeText(OutgoingInvitationActivity.this, response.message(), Toast.LENGTH_SHORT).show();
-                    finish();
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-                Toast.makeText(OutgoingInvitationActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                finish();
-            }
-        });
     }
 
     private BroadcastReceiver invitationResponseReceiver = new BroadcastReceiver() {
@@ -261,14 +260,12 @@ public class OutgoingInvitationActivity extends AppCompatActivity {
                         if(meetingType.equals("audio")) {
                             builder.setVideoMuted(true);
                         }
-
 //                        JitsiMeetConferenceOptions conferenceOptions =
 //                                new JitsiMeetConferenceOptions.Builder()
 //                                        .setServerURL(severURL)
 //                                        .setWelcomePageEnabled(false)
 //                                        .setRoom(meetingRoom)
 //                                        .build();
-
                         JitsiMeetActivity.launch(OutgoingInvitationActivity.this, builder.build());
                         finish();
 

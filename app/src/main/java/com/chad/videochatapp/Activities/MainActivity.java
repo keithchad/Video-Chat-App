@@ -1,51 +1,105 @@
 package com.chad.videochatapp.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.os.PowerManager;
+import android.provider.Settings;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.fragment.app.Fragment;
 
-import com.chad.videochatapp.Adapter.UserAdapter;
-import com.chad.videochatapp.Authentication.LoginActivity;
-import com.chad.videochatapp.Constants.Constants;
+import com.chad.videochatapp.Fragments.FriendsFragment;
 import com.chad.videochatapp.Fragments.HomeFragment;
-import com.chad.videochatapp.Listeners.UserListener;
-import com.chad.videochatapp.Models.User;
+import com.chad.videochatapp.Fragments.SettingsFragment;
 import com.chad.videochatapp.R;
-import com.chad.videochatapp.Utils.PreferenceManager;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.iid.FirebaseInstanceId;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity{
 
-    private PreferenceManager preferenceManager;
-    private List<User> list;
-    private UserAdapter userAdapter;
-    private TextView textErrorMessage;
-//    private ProgressBar userProgressBar;
-    private SwipeRefreshLayout swipeRefreshLayout;
+
+    private Fragment selectedFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setBarColors();
        getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
+       initialize();
+
+       checkForBatteryOptimization();
+
     }
 
-//    private void initialize() {
+    private void initialize() {
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+    }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+            item -> {
+
+                switch (item.getItemId()) {
+                    case R.id.home :
+                        selectedFragment = new HomeFragment();
+                        break;
+
+                    case R.id.user :
+                        selectedFragment = new FriendsFragment();
+                        break;
+
+                    case R.id.settings :
+                        selectedFragment = new SettingsFragment();
+                        break;
+                }
+
+                if (selectedFragment != null) {
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.container, selectedFragment).commit();
+                }
+
+                return true;
+            };
+
+    private void setBarColors() {
+        getWindow().setStatusBarColor(getResources().getColor(R.color.splash_end_color));
+        getWindow().setNavigationBarColor(getResources().getColor(R.color.splash_end_color));
+    }
+
+    private void checkForBatteryOptimization() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+
+            if (powerManager != null && !powerManager.isIgnoringBatteryOptimizations(getPackageName())) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Warning");
+                builder.setMessage("Battery Optimization is Enabled,It can Interrupt running in background!");
+                builder.setPositiveButton("Disable", (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
+                    startActivity(intent);
+                });
+                builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+                builder.create().show();
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        int REQUEST_CODE_BATTERY_OPTIMIZATIONS = 1;
+        if(requestCode == REQUEST_CODE_BATTERY_OPTIMIZATIONS) {
+            checkForBatteryOptimization();
+        }
+    }
+
+    //    private void initialize() {
 //
 //        preferenceManager = new PreferenceManager(getApplicationContext());
 //        TextView textTitle = findViewById(R.id.textTitle);
