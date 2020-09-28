@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Video Chat App</string>
-    <string name="welcome_to">Welcome To</string>
     <string name="video_meeting_app">Video Meeting App</string>
     <string name="sign_in_to_your_account">Sign in to your account</string>
     <string name="email">Email</string>
@@ -25,4 +24,7 @@
     <string name="get_started">Get Started</string>
     <string name="welcome_to">Welcome To</string>
     <string name="meet">Meet</string>
+    <string name="username">Username</string>
+    <string name="create_meeting">CREATE MEETING</string>
+    <string name="join_meeting">JOIN MEETING</string>
 </resources>

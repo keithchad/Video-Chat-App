@@ -11,33 +11,39 @@
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
-        android:background="@color/splash_end_color"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingStart="@dimen/_8sdp"
         android:paddingEnd="@dimen/_8sdp"
         app:layout_constraintTop_toTopOf="parent">
 
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageProfile"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:src="@mipmap/illustration_1"/>
+
         <TextView
             android:id="@+id/textTitle"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:text="@string/username"
+            android:layout_marginStart="@dimen/_10sdp"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/ubuntu_bold"
+            android:fontFamily="@font/ubuntu_regular"
             android:includeFontPadding="false"
-            android:textColor="@color/colorTextIcons"
+            android:textColor="@color/colorBlack"
             android:textSize="@dimen/_15ssp"/>
 
-        <TextView
+        <ImageView
             android:id="@+id/textSignOut"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:fontFamily="@font/ubuntu_bold"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:gravity="center"
-            android:includeFontPadding="false"
-            android:text="@string/sign_out"
-            android:textColor="@color/colorBackground"
-            android:textSize="@dimen/_13ssp"/>
+            android:src="@drawable/ic_history"
+            app:tint="@color/colorBlack"
+            android:textColor="@color/colorBackground"/>
 
     </LinearLayout>
 
@@ -53,6 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/_5sdp"
+            android:background="@color/topBarColor"
             android:clipToPadding="false"
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />

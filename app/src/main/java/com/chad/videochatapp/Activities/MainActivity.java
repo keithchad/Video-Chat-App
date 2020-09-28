@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity{
             };
 
     private void setBarColors() {
-        getWindow().setStatusBarColor(getResources().getColor(R.color.splash_end_color));
-        getWindow().setNavigationBarColor(getResources().getColor(R.color.splash_end_color));
+        getWindow().setStatusBarColor(getResources().getColor(R.color.white));
+        getWindow().setNavigationBarColor(getResources().getColor(android.R.color.white));
     }
 
     private void checkForBatteryOptimization() {

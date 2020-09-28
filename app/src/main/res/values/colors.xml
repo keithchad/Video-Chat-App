@@ -15,6 +15,9 @@
     <color name="colorMeetingInvitationEnd">#8A1AAA</color>
     <color name="splash_start_color">#00B9FF</color>
     <color name="splash_end_color">#150FD8</color>
+    <color name="white">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+    <color name="topBarColor">#0C0041FF</color>
 
 
 </resources>
