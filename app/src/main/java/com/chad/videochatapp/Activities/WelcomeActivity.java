@@ -12,8 +12,6 @@ import com.chad.videochatapp.R;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-    private Button getStatedButton;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,10 +23,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void initialize() {
 
-        getStatedButton = findViewById(R.id.getStartedButton);
+        Button getStatedButton = findViewById(R.id.getStartedButton);
 
         getStatedButton.setOnClickListener(v -> {
-            Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+            Intent intent = new Intent(WelcomeActivity.this, LoginActivity.class);
             startActivity(intent);
         });
     }

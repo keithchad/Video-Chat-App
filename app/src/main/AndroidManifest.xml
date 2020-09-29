@@ -13,8 +13,9 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".Activities.HomeActivity"></activity>
-        <activity android:name=".Activities.WelcomeActivity" />
+
+        <activity android:name=".Activities.WelcomeActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.SplashActivity"
             android:screenOrientation="portrait">
