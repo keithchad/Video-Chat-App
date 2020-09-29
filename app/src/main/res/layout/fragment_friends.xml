@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    tools:context=".Fragments.CreateMeetingFragment">
+    tools:context=".Fragments.HomeFragment">
 
     <LinearLayout
         android:id="@+id/layoutHeader"
@@ -14,6 +14,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:elevation="@dimen/_5sdp"
         android:paddingStart="@dimen/_8sdp"
         android:paddingEnd="@dimen/_8sdp"
         app:layout_constraintTop_toTopOf="parent">

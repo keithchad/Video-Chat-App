@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:animateLayoutChanges="true"
-    tools:context=".Fragments.CreateMeetingFragment">
+    tools:context=".Fragments.HomeFragment">
 
    <LinearLayout
        android:id="@+id/layoutHeader"
        android:layout_width="match_parent"
        android:layout_height="?actionBarSize"
        android:background="@color/white"
-       android:elevation="@dimen/_10sdp"
+       android:elevation="@dimen/_5sdp"
        android:gravity="center_vertical"
        android:orientation="horizontal"
        android:paddingStart="@dimen/_8sdp"

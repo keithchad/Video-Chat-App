@@ -87,7 +87,7 @@ dependencies {
     //Material Design
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
-    implementation 'com.google.android.material:material:1.1.0'
+    implementation 'com.google.android.material:material:1.2.1'
 
     //Zoom ImageView
     implementation 'com.jsibbold:zoomage:1.2.0'

@@ -11,7 +11,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import com.chad.videochatapp.Fragments.CreateMeetingFragment;
+import com.chad.videochatapp.Fragments.HomeFragment;
 import com.chad.videochatapp.Fragments.FriendsFragment;
 import com.chad.videochatapp.Fragments.SettingsFragment;
 import com.chad.videochatapp.R;
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
 
         setBarColors();
-       getSupportFragmentManager().beginTransaction().replace(R.id.container, new CreateMeetingFragment()).commit();
+       getSupportFragmentManager().beginTransaction().replace(R.id.container, new HomeFragment()).commit();
 
 
        initialize();
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity{
 
                 switch (item.getItemId()) {
                     case R.id.home :
-                        selectedFragment = new CreateMeetingFragment();
+                        selectedFragment = new HomeFragment();
                         break;
 
                     case R.id.user :

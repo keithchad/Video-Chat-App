@@ -27,4 +27,7 @@
     <string name="username">Username</string>
     <string name="create_meeting">CREATE MEETING</string>
     <string name="join_meeting">JOIN MEETING</string>
+    <string name="meeting_code">Meeting Code</string>
+    <string name="create_meeting_code">Create Meeting Code</string>
+    <string name="enter_meeting_code">Enter Meeting Code</string>
 </resources>

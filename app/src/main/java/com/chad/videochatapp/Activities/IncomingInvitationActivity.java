@@ -121,12 +121,6 @@ public class IncomingInvitationActivity extends AppCompatActivity {
                           if(meetingType.equals("audio")) {
                               builder.setVideoMuted(true);
                           }
-//                          JitsiMeetConferenceOptions conferenceOptions =
-//                                  new JitsiMeetConferenceOptions.Builder()
-//                                  .setServerURL(severURL)
-//                                  .setWelcomePageEnabled(false)
-//                                  .setRoom(getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM))
-//                                  .build();
                           JitsiMeetActivity.launch(IncomingInvitationActivity.this, builder.build());
                           finish();
 
