@@ -8,12 +8,15 @@
     tools:context=".Fragments.JoinMeetingFragment">
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/joinTextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
         android:hint="@string/enter_meeting_code"
         app:endIconCheckable="true"
         app:endIconMode="custom"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         app:endIconDrawable="@drawable/ic_share"
         app:endIconTint="@color/colorPrimary">

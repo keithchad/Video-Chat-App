@@ -30,4 +30,13 @@
     <string name="meeting_code">Meeting Code</string>
     <string name="create_meeting_code">Create Meeting Code</string>
     <string name="enter_meeting_code">Enter Meeting Code</string>
+    <string name="job_description">Job Description</string>
+    <string name="meet2">MEET</string>
+    <string name="dummy_email">johndoe@gmail.com</string>
+    <string name="edit_profile">EDIT PROFILE</string>
+    <string name="terms_and_privacy_policy">Terms and Privacy Policy</string>
+    <string name="faq">FAQ</string>
+    <string name="support_us">Support Us</string>
+    <string name="app_info">App Info</string>
+    <string name="dummy_job">Software Engineer</string>
 </resources>

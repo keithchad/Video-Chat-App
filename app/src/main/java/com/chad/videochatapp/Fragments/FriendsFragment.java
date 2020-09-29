@@ -56,8 +56,6 @@ public class FriendsFragment extends Fragment implements UserListener {
     private SwipeRefreshLayout swipeRefreshLayout;
     RecyclerView recyclerView;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

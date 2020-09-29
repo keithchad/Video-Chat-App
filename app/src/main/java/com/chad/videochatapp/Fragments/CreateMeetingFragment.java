@@ -1,5 +1,7 @@
 package com.chad.videochatapp.Fragments;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -14,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.chad.videochatapp.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.jitsi.meet.sdk.JitsiMeetActivity;
 import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
@@ -25,6 +28,8 @@ import java.util.Objects;
 public class CreateMeetingFragment extends Fragment {
 
     private TextInputEditText createMeetingEditText;
+    private TextInputLayout createTextInputLayout;
+
     private ConnectivityManager connectivityManager;
 
     @Override
@@ -40,7 +45,21 @@ public class CreateMeetingFragment extends Fragment {
     private void initialize(View view) {
 
         createMeetingEditText = view.findViewById(R.id.createMeetingEditText);
+        createTextInputLayout = view.findViewById(R.id.createTextInputLayout);
         MaterialButton createMeetingButton = view.findViewById(R.id.createMeetingButton);
+
+        createTextInputLayout.setEndIconCheckable(true);
+        createTextInputLayout.setEndIconOnClickListener(v -> {
+            if (createMeetingEditText.getText().toString().isEmpty()) {
+                Toast.makeText(getContext(), "Enter a Code", Toast.LENGTH_SHORT).show();
+            }else if (createMeetingEditText.length() <= 8) {
+                Toast.makeText(getContext(), "Enter a longer Code", Toast.LENGTH_SHORT).show();
+            }else {
+                copyToClipboard();
+                Toast.makeText(getContext(), "Copied to Clipboard", Toast.LENGTH_SHORT).show();
+            }
+
+        });
 
         connectivityManager = (ConnectivityManager)getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -58,6 +77,16 @@ public class CreateMeetingFragment extends Fragment {
             }
         });
 
+    }
+
+    private void copyToClipboard() {
+        String createdMeetingCode = createMeetingEditText.getText().toString();
+
+        ClipboardManager clipboardManager = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText("Create Meeting", createdMeetingCode);
+        if (clipboardManager != null) {
+            clipboardManager.setPrimaryClip(clipData);
+        }
     }
 
     private void createMeeting() {
