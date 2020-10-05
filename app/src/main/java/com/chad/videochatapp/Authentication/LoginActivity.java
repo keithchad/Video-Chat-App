@@ -17,8 +17,7 @@ import com.chad.videochatapp.Constants.Constants;
 import com.chad.videochatapp.R;
 import com.chad.videochatapp.Utils.PreferenceManager;
 import com.google.android.material.button.MaterialButton;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -26,8 +25,6 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputPassword;
     private MaterialButton buttonSignIn;
     private ProgressBar signInProgressBar;
-
-    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonSignIn = findViewById(R.id.buttonLogIn);
         signInProgressBar = findViewById(R.id.signInProgressBar);
 
-        preferenceManager = new PreferenceManager(getApplicationContext());
+        PreferenceManager preferenceManager = new PreferenceManager(getApplicationContext());
 
         if(preferenceManager.getBoolean(Constants.KEY_IS_SIGNED_IN)) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -76,31 +73,25 @@ public class LoginActivity extends AppCompatActivity {
         buttonSignIn.setVisibility(View.INVISIBLE);
         signInProgressBar.setVisibility(View.VISIBLE);
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection(Constants.KEY_COLLECTION_USERS)
-                .whereEqualTo(Constants.KEY_EMAIL, inputEmail.getText().toString())
-                .whereEqualTo(Constants.KEY_PASSWORD, inputPassword.getText().toString())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0) {
-                        DocumentSnapshot documentSnapshot = task.getResult().getDocuments().get(0);
-                        preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
-                        preferenceManager.putString(Constants.KEY_FIRST_NAME, documentSnapshot.getString(Constants.KEY_FIRST_NAME));
-                        preferenceManager.putString(Constants.KEY_LAST_NAME, documentSnapshot.getString(Constants.KEY_LAST_NAME));
-                        preferenceManager.putString(Constants.KEY_EMAIL, documentSnapshot.getString(Constants.KEY_EMAIL));
-                        preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
+        String email = inputEmail.getText().toString();
+        String password = inputPassword.getText().toString();
 
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
-                    }else {
-                        signInProgressBar.setVisibility(View.INVISIBLE);
-                        buttonSignIn.setVisibility(View.VISIBLE);
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-                        Toast.makeText(this, "Unable to sign In", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(e ->
-                Toast.makeText(this, "Unable to sign In " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }else {
+                signInProgressBar.setVisibility(View.INVISIBLE);
+                buttonSignIn.setVisibility(View.VISIBLE);
+
+                Toast.makeText(LoginActivity.this, "Unable to sign In", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(e -> Toast.makeText(LoginActivity.this, "Unable to sign In " + e.getMessage(), Toast.LENGTH_SHORT).show());
+
+
     }
 
     private void setBarColors() {
