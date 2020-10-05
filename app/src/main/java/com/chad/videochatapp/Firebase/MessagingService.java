@@ -1,7 +1,6 @@
 package com.chad.videochatapp.Firebase;
 
 import android.content.Intent;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -28,7 +27,7 @@ public class MessagingService extends FirebaseMessagingService {
             if (type.equals(Constants.REMOTE_MSG_INVITATION)) {
                 Intent intent = new Intent(getApplicationContext(), IncomingInvitationActivity.class);
                 intent.putExtra(
-                        Constants.REMOTE_MSG_TYPE,
+                        Constants.REMOTE_MSG_MEETING_TYPE,
                         remoteMessage.getData().get(Constants.REMOTE_MSG_MEETING_TYPE)
                 );
                 intent.putExtra(

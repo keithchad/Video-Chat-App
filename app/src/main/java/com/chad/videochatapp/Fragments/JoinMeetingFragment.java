@@ -68,10 +68,6 @@ public class JoinMeetingFragment extends Fragment {
                 Toast.makeText(getContext(), "Enter a Code", Toast.LENGTH_SHORT).show();
             }else if (joinMeetingEditText.length() <= 8) {
                 Toast.makeText(getContext(), "Enter a longer Code", Toast.LENGTH_SHORT).show();
-            }else if ((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED)
-                    || (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED)) {
-
-                Toast.makeText(getContext(), "Check your Internet Connection and try again", Toast.LENGTH_SHORT).show();
             }else {
                 joinMeeting();
             }

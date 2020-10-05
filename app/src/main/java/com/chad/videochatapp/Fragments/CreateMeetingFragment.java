@@ -28,7 +28,6 @@ import java.util.Objects;
 public class CreateMeetingFragment extends Fragment {
 
     private TextInputEditText createMeetingEditText;
-    private TextInputLayout createTextInputLayout;
 
     private ConnectivityManager connectivityManager;
 
@@ -45,7 +44,7 @@ public class CreateMeetingFragment extends Fragment {
     private void initialize(View view) {
 
         createMeetingEditText = view.findViewById(R.id.createMeetingEditText);
-        createTextInputLayout = view.findViewById(R.id.createTextInputLayout);
+        TextInputLayout createTextInputLayout = view.findViewById(R.id.createTextInputLayout);
         MaterialButton createMeetingButton = view.findViewById(R.id.createMeetingButton);
 
         createTextInputLayout.setEndIconCheckable(true);
@@ -68,10 +67,6 @@ public class CreateMeetingFragment extends Fragment {
                 Toast.makeText(getContext(), "Enter a Code", Toast.LENGTH_SHORT).show();
             }else if (createMeetingEditText.length() <= 8) {
                 Toast.makeText(getContext(), "Enter a longer Code", Toast.LENGTH_SHORT).show();
-            }else if ((connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.DISCONNECTED)
-                    || (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.DISCONNECTED)) {
-
-                Toast.makeText(getContext(), "Check your Internet Connection and try again", Toast.LENGTH_SHORT).show();
             } else {
                 createMeeting();
             }

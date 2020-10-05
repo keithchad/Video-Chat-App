@@ -109,6 +109,7 @@ public class IncomingInvitationActivity extends AppCompatActivity {
             public void onResponse(@NonNull Call<String> call, @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
                   if(type.equals(Constants.REMOTE_MSG_INVITATION_ACCEPTED)) {
+
                       try {
 
                           URL severURL = new URL("https://meet.jit.si");
@@ -123,12 +124,11 @@ public class IncomingInvitationActivity extends AppCompatActivity {
                           }
                           JitsiMeetActivity.launch(IncomingInvitationActivity.this, builder.build());
                           finish();
-
-
                       }catch (Exception e) {
                           Toast.makeText(IncomingInvitationActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                           finish();
                       }
+
                   }else {
                       Toast.makeText(IncomingInvitationActivity.this, "Invitation Rejected", Toast.LENGTH_SHORT).show();
                       finish();
@@ -137,13 +137,11 @@ public class IncomingInvitationActivity extends AppCompatActivity {
                     Toast.makeText(IncomingInvitationActivity.this, response.message(), Toast.LENGTH_SHORT).show();
                     finish();
                 }
-
             }
 
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
                 Toast.makeText(IncomingInvitationActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                finish();
             }
         });
     }

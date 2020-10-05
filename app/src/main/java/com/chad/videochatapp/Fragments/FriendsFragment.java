@@ -61,7 +61,6 @@ public class FriendsFragment extends Fragment implements UserListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_friends, container, false);
 
-        TextView textSignOut = view.findViewById(R.id.textSignOut);
         textErrorMessage = view.findViewById(R.id.textErrorMessage);
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         TextView textTitle = view.findViewById(R.id.textTitle);
@@ -76,8 +75,6 @@ public class FriendsFragment extends Fragment implements UserListener {
         list = new ArrayList<>();
         userAdapter = new UserAdapter(list, this);
         recyclerView.setAdapter(userAdapter);
-
-        textSignOut.setOnClickListener(v -> signOut());
 
         String title = String.format("%s %s",
                 preferenceManager.getString(Constants.KEY_FIRST_NAME),
@@ -99,12 +96,15 @@ public class FriendsFragment extends Fragment implements UserListener {
 
     private void getUsers() {
         swipeRefreshLayout.setRefreshing(true);
-//        userProgressBar.setVisibility(View.VISIBLE);
+
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
         firestore.collection(Constants.KEY_COLLECTION_USERS).get().addOnCompleteListener(task -> {
+
             swipeRefreshLayout.setRefreshing(false);
-//            userProgressBar.setVisibility(View.GONE);
+
             String myUserId = preferenceManager.getString(Constants.KEY_USER_ID);
+
             if(task.isSuccessful() && task.getResult() != null) {
                 list.clear();
                 for(QueryDocumentSnapshot documentSnapshot : task.getResult()) {
@@ -145,25 +145,6 @@ public class FriendsFragment extends Fragment implements UserListener {
 
     }
 
-    private void signOut() {
-        Toast.makeText(getContext(), "Signing Out...", Toast.LENGTH_SHORT).show();
-
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
-        DocumentReference reference = firestore.collection(Constants.KEY_COLLECTION_USERS).document(
-                preferenceManager.getString(Constants.KEY_USER_ID)
-        );
-
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-
-        reference.update(updates)
-                .addOnSuccessListener(aVoid -> {
-                    preferenceManager.clearPreferences();
-                    startActivity(new Intent(getContext(), LoginActivity.class));
-                }).addOnFailureListener(e -> Toast.makeText(getContext(), "Unable to sign Out", Toast.LENGTH_SHORT).show());
-    }
-
     @Override
     public void initiateVideoMeeting(User user) {
         if (user.token == null || user.token.trim().isEmpty()) {
@@ -186,8 +167,6 @@ public class FriendsFragment extends Fragment implements UserListener {
             intent.putExtra("user", user);
             intent.putExtra("type", "audio");
             startActivity(intent);
-            Toast.makeText(getContext(), "Audio Meeting with " + user.firstName + " " + user.lastName, Toast.LENGTH_SHORT).show();
-
         }
     }
 

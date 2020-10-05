@@ -28,10 +28,9 @@
           android:src="@mipmap/illustration_1"/>
 
       <TextView
-          android:id="@+id/textTitle"
+          android:id="@+id/textUsername"
           android:layout_width="0dp"
           android:layout_weight="1"
-          android:text="@string/username"
           android:layout_marginStart="@dimen/_10sdp"
           android:layout_height="wrap_content"
           android:fontFamily="@font/ubuntu_regular"
@@ -40,7 +39,7 @@
           android:textSize="@dimen/_15ssp"/>
 
       <ImageView
-          android:id="@+id/textSignOut"
+          android:id="@+id/imageHistory"
           android:layout_width="35dp"
           android:layout_height="35dp"
           android:contentDescription="@string/app_name"

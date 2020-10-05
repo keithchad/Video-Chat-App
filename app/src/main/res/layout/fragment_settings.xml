@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:scrollbarDefaultDelayBeforeFade="0"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Fragments.SettingsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
         android:layout_marginBottom="@dimen/_15sdp"
         android:orientation="vertical">
 
@@ -52,55 +54,115 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:animateLayoutChanges="true"
                 android:padding="@dimen/_4sdp">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <RelativeLayout
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center"
-                    android:layout_marginTop="30dp"
+                    android:layout_marginTop="30dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageProfile"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     app:civ_border_width="1dp"
-                    app:civ_border_color="@color/colorPrimaryDark"
-                    android:src="@drawable/illustration_3"/>
+                    android:src="@drawable/illustration_3"
+                    app:civ_border_color="@color/colorPrimaryDark" />
 
-                <TextView
-                    android:id="@+id/textTitle"
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/buttonEditImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerInside"
+                        android:elevation="1dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentEnd="true"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:src="@drawable/ic_camera"
+                        android:tint="@color/white" />
+
+            </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dummy_name"
                     android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_30sdp">
+
+                <TextView
+                    android:id="@+id/textUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:fontFamily="@font/ubuntu_regular"
                     android:includeFontPadding="false"
                     android:textColor="@color/colorBlack"
                     android:textSize="@dimen/_15ssp"/>
 
-                <TextView
-                    android:id="@+id/textEmail"
+                    <ImageView
+                        android:id="@+id/editName"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/colorPrimary"
+                        android:visibility="gone"
+                        android:contentDescription="@string/app_name"
+                        android:layout_toEndOf="@id/textUsername"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="@dimen/_10sdp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/dummy_email"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_10sdp">
+
+                    <TextView
+                        android:id="@+id/textEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ubuntu_regular"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_15ssp"/>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:fontFamily="@font/ubuntu_regular"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_15ssp"/>
+                    android:layout_marginBottom="10dp">
 
-                <TextView
-                    android:id="@+id/textJobDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dummy_job"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="@font/ubuntu_regular"
-                    android:includeFontPadding="false"
-                    android:textColor="@color/colorBlack"
-                    android:textSize="@dimen/_15ssp"/>
+                    <TextView
+                        android:id="@+id/textJobDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/ubuntu_regular"
+                        android:includeFontPadding="false"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="@dimen/_15ssp"/>
+
+                    <ImageView
+                        android:id="@+id/editJobDescription"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_edit"
+                        app:tint="@color/colorPrimary"
+                        android:visibility="gone"
+                        android:contentDescription="@string/app_name"
+                        android:layout_toEndOf="@id/textJobDescription"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginStart="@dimen/_10sdp"/>
+
+                </RelativeLayout>
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonEditProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/edit_profile"
@@ -108,6 +170,17 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginBottom="30dp"
+                    android:fontFamily="@font/ubuntu_medium"/>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buttonSignOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sign_out"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:backgroundTint="@android:color/holo_red_dark"
                     android:fontFamily="@font/ubuntu_medium"/>
 
             </LinearLayout>
@@ -121,6 +194,7 @@
             android:layout_marginTop="@dimen/_20sdp"
             android:layout_marginEnd="@dimen/_20sdp"
             app:cardCornerRadius="@dimen/_4sdp"
+            android:layout_marginBottom="@dimen/_30sdp"
             app:layout_constraintTop_toBottomOf="@+id/textSignInLabel">
 
             <LinearLayout

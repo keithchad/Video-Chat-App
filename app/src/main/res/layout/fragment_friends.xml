@@ -37,24 +37,6 @@
             android:textColor="@color/colorBlack"
             android:textSize="@dimen/_15ssp"/>
 
-<!--        <ImageView-->
-<!--            android:id="@+id/textSignOut"-->
-<!--            android:layout_width="35dp"-->
-<!--            android:layout_height="35dp"-->
-<!--            android:gravity="center"-->
-<!--            android:src="@drawable/ic_history"-->
-<!--            app:tint="@color/colorBlack"-->
-<!--          />-->
-
-        <TextView
-            android:id="@+id/textSignOut"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-           android:text="@string/sign_out"
-            android:fontFamily="@font/ubuntu_bold"
-            android:textColor="@color/colorBlack"/>
-
     </LinearLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
